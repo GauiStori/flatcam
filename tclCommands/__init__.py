@@ -1,4 +1,5 @@
 import pkgutil
+import importlib
 import sys
 
 # Todo: I think these imports are not needed.
@@ -52,9 +53,10 @@ import tclCommands.TclCommandWriteGCode
 
 __all__ = []
 
-for loader, name, is_pkg in pkgutil.walk_packages(__path__):
-    module = loader.find_module(name).load_module(name)
-    __all__.append(name)
+for module_info in pkgutil.walk_packages(__path__, prefix=__name__ + "."):
+    name = module_info.name
+    importlib.import_module(name)
+    __all__.append(name.split('.')[-1])
 
 
 def register_all_commands(app, commands):

@@ -10,7 +10,8 @@
 # import traceback
 
 from io import StringIO
-from numpy import arctan2, Inf, array, sqrt, pi, ceil, sin, cos, dot, float32, transpose
+from numpy import arctan2, array, sqrt, pi, ceil, sin, cos, dot, float32, transpose
+from numpy import inf as Inf
 from numpy.linalg import solve, norm
 from matplotlib.figure import Figure
 import re
