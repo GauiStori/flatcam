@@ -928,7 +928,7 @@ class GerberObject(FlatCAMObj, Gerber):
                         pass
                     else:
                         try:
-                            for el in g:
+                            for el in g.geoms:
                                 self.add_shape(shape=el, color=color,
                                                face_color=random_color() if self.options['multicolored']
                                                else face_color, visible=visible)
@@ -944,7 +944,7 @@ class GerberObject(FlatCAMObj, Gerber):
                     elif type(g) == Point:
                         pass
                     else:
-                        for el in g:
+                        for el in g.geoms:
                             self.add_shape(shape=el, color=random_color() if self.options['multicolored'] else 'black',
                                            visible=visible)
             self.shapes.redraw(
