@@ -754,7 +754,7 @@ class NumericalEvalEntry(FCEntry):
     def __init__(self, border_color=None):
         super().__init__(border_color=border_color)
 
-        regex = QtCore.QRegExp("[0-9\/\*\+\-\%\.\,\s]*")
+        regex = QtCore.QRegExp(r"[0-9/*+\-%.,\s]*")
         validator = QtGui.QRegExpValidator(regex, self)
         self.setValidator(validator)
 
@@ -778,7 +778,7 @@ class NumericalEvalTupleEntry(EvalEntry):
     def __init__(self, border_color=None):
         super().__init__(border_color=border_color)
 
-        regex = QtCore.QRegExp("[0-9\/\*\+\-\%\.\s\,\[\]\(\)]*")
+        regex = QtCore.QRegExp(r"[0-9/*+\-%.\s,\[\]()\-]*")
         validator = QtGui.QRegExpValidator(regex, self)
         self.setValidator(validator)
 
@@ -1298,7 +1298,7 @@ class FCDoubleSpinner(QtWidgets.QDoubleSpinBox):
         # by default don't allow the minus sign to be entered as the default for QDoubleSpinBox is the positive range
         # between 0.00 and 99.00 (2 decimals)
         self.lineEdit().setValidator(
-            QtGui.QRegExpValidator(QtCore.QRegExp("\+?[0-9]*[.,]?[0-9]{%d}" % self.decimals()), self))
+            QtGui.QRegExpValidator(QtCore.QRegExp(r"+?[0-9]*[.,]?[0-9]{%d}" % self.decimals()), self))
 
         if suffix:
             self.setSuffix(' %s' % str(suffix))
@@ -1487,15 +1487,15 @@ class FCDoubleSpinner(QtWidgets.QDoubleSpinBox):
         # make sure that the user can't type more decimals than the set precision
         if self.minimum() < 0 or self.maximum() <= 0:
             self.lineEdit().setValidator(
-                QtGui.QRegExpValidator(QtCore.QRegExp("-?[0-9]*[.,]?[0-9]{%d}" % self.decimals()), self))
+                QtGui.QRegExpValidator(QtCore.QRegExp(r"-?[0-9]*[.,]?[0-9]{%d}" % self.decimals()), self))
         else:
             self.lineEdit().setValidator(
-                QtGui.QRegExpValidator(QtCore.QRegExp("\+?[0-9]*[.,]?[0-9]{%d}" % self.decimals()), self))
+                QtGui.QRegExpValidator(QtCore.QRegExp(r"+?[0-9]*[.,]?[0-9]{%d}" % self.decimals()), self))
 
     def set_range(self, min_val, max_val):
         if min_val < 0 or max_val <= 0:
             self.lineEdit().setValidator(
-                QtGui.QRegExpValidator(QtCore.QRegExp("-?[0-9]*[.,]?[0-9]{%d}" % self.decimals()), self))
+                QtGui.QRegExpValidator(QtCore.QRegExp(r"-?[0-9]*[.,]?[0-9]{%d}" % self.decimals()), self))
 
         self.setRange(min_val, max_val)
 
@@ -4159,7 +4159,7 @@ class FCTextAreaLineNumber(QtWidgets.QFrame):
                         painter.setFont(font)
 
                     # Draw the line number right justified at the position of the line.
-                    paint_rect = QtCore.QRect(0, block_top, number_bar.width(), font_metrics.height())
+                    paint_rect = QtCore.QRect(0, int(block_top), int(number_bar.width()), int(font_metrics.height()))
                     # I add some spaces to the line_count to prettify; make sure to remember adjust the width in the
                     # NumberBar() class above
                     painter.drawText(paint_rect, Qt.AlignRight, ' ' + str(line_count) + '  ')
